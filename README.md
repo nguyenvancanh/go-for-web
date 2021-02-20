@@ -82,6 +82,19 @@ http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
 })
 ```
 
+Để xử dụng linh hoạt, _http.Request_ bao gồm tất cả thông tin liên quan tới request và các tham số của nó. Bạn có thể lấy các tham số của method GET với phướng thức _r.URL.Query().Get("token")_ hay POST parame (được submit từ HTML form) _r.FormValue("email").
 
+**2. Cung cấp nội dung tĩnh**
 
+Để cung cấp các file tĩnh như JS, CSS, image chúng ta sử dụng _http.FileServer_ và truyền vào một đường dẫn url. Tất nhiên, nó cần được biết file của bạn đang được lưu trữ ở đâu. Chúng ta có thể dùng cách sau:
+
+```
+fs := http.FileServer(http.Dir("static/"))
+```
+
+Khi máy chủ được cài đặt, chúng ta chỉ cần trỏ 1 đường dẫn url vào đó. Lưu ý rằng, để phân biệt được file một cách chính xác, chúng ta cần loại bỏ một phần của url
+
+```
+http.Handle("/static/", http.StripPrefix("/static/", fs))
+```
 
