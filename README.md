@@ -154,5 +154,59 @@ Một khi bạn đã có router, bạn có thể khai báo một hàm handle req
 
 **4. URL parametter**
 
-Điểm mạnh nhất của package gorilla/mux
+Điểm mạnh nhất của package _gorilla/mux_ là khả năng lấy các thành phần của URL. Ví dụ, đây là 1 URL trong ứng dụng của bạn
 
+```
+/books/go-programming-blueprint/page/10
+```
+
+URL trên có 2 tham số động đó là
+
+- Tên sách (go-programming-blueprint)
+- số trang (page 10 )
+
+Khi đó, bạn cần khai báo router như sau để có thế dynamic các tham số được truyền vào
+
+```
+r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
+    // get the book
+    // navigate to the page
+})
+```
+
+Điều cuối cùng là package này cũng cung cấp cho chung ta phương thức _mux.Vars(r)_ giúp chúng ta dễ dàng lấy các tham số từ router ra hơn
+
+```
+func(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    vars["title"] // the book title slug
+    vars["page"] // the page
+}
+```
+
+**5. Full code**
+
+```
+package main
+
+import (
+    "fmt"
+    "net/http"
+
+    "github.com/gorilla/mux"
+)
+
+func main() {
+    r := mux.NewRouter()
+
+    r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
+        vars := mux.Vars(r)
+        title := vars["title"]
+        page := vars["page"]
+
+        fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
+    })
+
+    http.ListenAndServe(":80", r)
+}
+```
