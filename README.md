@@ -35,4 +35,31 @@ http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
 
 **2. Listen HTTP connections**
 
-Nếu bạn chỉ có một hàm xử lý handle như tr
+Nếu bạn chỉ có một hàm xử lý handle như trong mục 1, thì bạn không thể nhận bất ký kết nối nào từ bên ngoài. HTTP server cần phải lắng nghe trên 1 port để chuyển các kết nối tới hàm handle request. HTTP thường lấy port 80 làm mặc định. Đoạn mã sau sẽ khởi động máy chủ HTTP mặc định của Go, và sử dụng cổng 80 để chuyển các request tới hàm xử lý
+
+```
+http.ListenAndServe(":80", nil)
+
+```
+
+**3. Full code**
+
+```
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+    })
+
+    http.ListenAndServe(":80", nil)
+}
+
+```
+
+Giờ thì bạn hãy thử truy cậphttp://localhost/ vào link [http://localhost/](http://localhost/) trên trình duyệt của mình nhé. 
