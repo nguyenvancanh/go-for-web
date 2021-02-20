@@ -14,3 +14,25 @@ Mục tiêu của bài viết :
 
 **1. Khai báo một Request Handle**
 
+Trước hết, tạo một function nhận tất cả các request HTTP đến từ trình duyệt, HTTP client, hay các yêu cầu API. Hàm đó được khai báo như sau
+
+```
+func (w http.ResponseWriter, r *http.Request)
+```
+
+Hàm này có 2 tham số truyền vào, 
+
+- http.ResponseWriter: nơi lưu giá trị response text/html vào đó
+- http.Request: Bao gồm tất cả thông tin có trong HTTP request. Ví dụ như URL, hay các thông tin của header
+
+Một hàm handle request tới HTTP server đơn giản có thể được viết như sau:
+
+```
+http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+})
+```
+
+**2. Listen HTTP connections**
+
+Nếu bạn chỉ có một hàm xử lý handle như tr
