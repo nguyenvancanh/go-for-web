@@ -98,3 +98,61 @@ Khi máy chủ được cài đặt, chúng ta chỉ cần trỏ 1 đường d�
 http.Handle("/static/", http.StripPrefix("/static/", fs))
 ```
 
+**3. Accept connections**
+
+Việc cuối cùng chúng ta cần làm để hoàn thiện HTTP server đó là khai báo cổng để có thể lắng nghe các sự kiện đến từ request. Đương nhiên, Go cũng có một máy chủ HTTP có sẵn, chúng ta có thể start dễ dàng và nhanh chóng. Sau khi start, bạn có thể truy cập vào ứng dụng bằng trình duyệt của mình
+
+```
+http.ListenAndServe(":80", nil)
+```
+
+**4. Full code**
+
+```
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Welcome to my website!")
+    })
+
+    fs := http.FileServer(http.Dir("static/"))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+    http.ListenAndServe(":80", nil)
+}
+```
+
+## Routing
+
+Package _net/http_ cung cấp cho chúng ta khá đầy đủ các hàm xử lý với giao thức HTTP. Chỉ có 1 điểm mà nó chưa có hay chưa thực sự tốt đó là định tuyết các request phức tạp. Chúng ta cũng không cần phải quá lo lắng, khi có một package rất phổ biến cho vấn đề này, được biết đến rộng rãi trong cộng đồng Go. Ví dụ sau sẽ giúp các bạn hiểu rõ hơn về cách dùng package _gorilla/mux_ để tạo route cho ứn dụng web của mình. 
+
+**1. Cài đặt **
+
+Để cài đặt, bạn cần chạy lệnh sau: 
+
+```
+go get -u github.com/gorilla/mux
+```
+
+**2. Create new router**
+
+Đầu tiên, hay khai báo một request router mới. Nó là bộ đính tuyết chính cho ứng dụng web của bạn và sau đó sẽ được chuyển dưới dạng tham số tới máy chủ. Nó sẽ nhận tất cả các kết nối HTTP và chuyển nó cho các hàm handle request mà bạn đã khai báo. Tạo mới bằng lênh sau: 
+
+```
+r := mux.NewRouter()
+```
+
+**3. Khai báo handle request**
+
+Một khi bạn đã có router, bạn có thể khai báo một hàm handle reqeust cho nó một cách dễ dàng. Khác biệt duy nhất đó là việc gọi http.HandleFunc(...) thành gọi HandleFunc trên router bạn đã định nghĩa
+
+**4. URL parametter**
+
+Điểm mạnh nhất của package gorilla/mux
+
