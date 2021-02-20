@@ -62,4 +62,12 @@ func main() {
 
 ```
 
-Giờ thì bạn hãy thử truy cậphttp://localhost/ vào link [http://localhost/](http://localhost/) trên trình duyệt của mình nhé. 
+Giờ thì bạn hãy thử truy cập vào link [http://localhost/](http://localhost/) trên trình duyệt của mình nhé. 
+
+## HTTP Server
+
+Phần này sẽ giới thiệu cho các bạn cách để trạo một HTTP Server cơ bản nhất với GO. Một HTTP server cơ bản sẽ có những nhiệm vụ sau: 
+
+- Xử lý yêu cầu động bộ : Xử lý các yêu cầu tới từ người sử dụng trình duyệt (đăng nhập, upload hình ảnh )
+- Cung cấp nội dung tĩnh : Cung câp css, javascript, hình ảnh để tạo trải nghiệm cho người dùng 
+- Chấp nhận kết nối : Máy chủ HTTP cần phải lắng nghe trên một cổng cụ thể để có thể chập nhận kết nối từ internet
