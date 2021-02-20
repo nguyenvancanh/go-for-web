@@ -210,3 +210,34 @@ func main() {
     http.ListenAndServe(":80", r)
 }
 ```
+
+**6. Một số ưu điểm khác **
+
+- Method:
+
+```
+r.HandleFunc("/books/{title}", CreateBook).Methods("POST")
+r.HandleFunc("/books/{title}", ReadBook).Methods("GET")
+r.HandleFunc("/books/{title}", UpdateBook).Methods("PUT")
+r.HandleFunc("/books/{title}", DeleteBook).Methods("DELETE")
+```
+
+- Hostname & Subdomains
+
+```
+r.HandleFunc("/books/{title}", BookHandler).Host("www.mybookstore.com")
+```
+- Schemes
+
+```
+r.HandleFunc("/secure", SecureHandler).Schemes("https")
+r.HandleFunc("/insecure", InsecureHandler).Schemes("http")
+```
+
+- Path Prefixes & Subrouters
+
+```
+bookrouter := r.PathPrefix("/books").Subrouter()
+bookrouter.HandleFunc("/", AllBooks)
+bookrouter.HandleFunc("/{title}", GetBook)
+```
