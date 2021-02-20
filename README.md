@@ -71,3 +71,17 @@ Phần này sẽ giới thiệu cho các bạn cách để trạo một HTTP Ser
 - Xử lý yêu cầu động bộ : Xử lý các yêu cầu tới từ người sử dụng trình duyệt (đăng nhập, upload hình ảnh )
 - Cung cấp nội dung tĩnh : Cung câp css, javascript, hình ảnh để tạo trải nghiệm cho người dùng 
 - Chấp nhận kết nối : Máy chủ HTTP cần phải lắng nghe trên một cổng cụ thể để có thể chập nhận kết nối từ internet
+
+**1. Xử lý yêu cầu động bộ**
+
+Package _net/http_ bao gồm tất cả những điều cần thiết để chấp nhận yêu cầu cũng như xử lý chúng một cách linh hoạt. Chúng ta có thể khai báo một handle mới với function _http.HandleFunc_. Tham số đầu tiên là một đường dẫn, tham số thứ 2 là một hàm để thực thi. Với ví dụ dưới đây, khi một người dùng truy cập vào 1 website, họ có thể nhìn thấy được đoạn text chào đón nồng nhiệt 
+
+```
+http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, "Welcome to my website!")
+})
+```
+
+
+
+
